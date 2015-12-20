@@ -1,6 +1,4 @@
-// Student : Xinghang Ye
-// ID : V00788404
-// CSC445 Programming Assignment #2
+//Author: Xinghang Ye
 import java.lang.*;
 import java.util.Scanner;
 
@@ -30,15 +28,15 @@ class array_and_optimal{
 	}
 }
 public class Simplex{
-  
+
  public static int Find_Basic(int basic[],int n,double array[],int m){ // n is the number of elements in basic[]
 									// m is the number of elements in array[]
 		/*
 			This method is used to find the basic variable in each row of the array,which is generated
-			from the input, and we will place the found variable to the left hand side of the equation 
+			from the input, and we will place the found variable to the left hand side of the equation
 		*/
 
-		int i,j;					        
+		int i,j;
 		int flag = -1;
 		int position = -1;
 	outloop:
@@ -50,7 +48,7 @@ public class Simplex{
 				}
 			}
 		}
-		return position;		
+		return position;
   }
   public static boolean[] is_in_basis_array(int basic[],int m,int n){
   	/*
@@ -73,7 +71,7 @@ public class Simplex{
   public static boolean is_basic(int basic[],int m,int index){
 		/*
 			This is used to determine whether or not print out the value of a xi,
-			if i is not in basic we can print it out at the right hand side of 
+			if i is not in basic we can print it out at the right hand side of
 			the equation, if it is in basic set, then we won't print it out
 		*/
 		boolean flag = false;
@@ -82,16 +80,16 @@ public class Simplex{
 			if(basic[i] == index){
 				flag = true;
 				break;
-			}					
+			}
 		}
 		return flag;
 	}
 
 	public static int find_ind_row(int n,int m,double array[][],int basic[],int index){
 		 /*
-			This is used to find the row for next pivot, it will be used after we find the  index, which 
+			This is used to find the row for next pivot, it will be used after we find the  index, which
 			is the index of the colum to be pivoted next. The basic idea here is that find the coeffiecints of each row
-			to see if the coeff is negative and then find the smallet constraint, so we could find the row out, the the row 
+			to see if the coeff is negative and then find the smallet constraint, so we could find the row out, the the row
 			number is the ind_row
 		 */
 			int ind_row = 0;
@@ -104,7 +102,7 @@ public class Simplex{
 						min = array[i][0]/Math.abs(array[i][index]); //used to find the variable to enter the basis
 						ind_row = i;
 					}
-				}	
+				}
 			}
 		return ind_row;
 		}
@@ -163,8 +161,8 @@ public class Simplex{
 							}
 							if(array[0][i] > Math.pow(10,-5)){  // so the coeffient of the variable is positive
 								for(j=1;j<m+1;j++){//be feasible
-									if(array[j][i]<(-1)*Math.pow(10,-5)&&array[j][0]*array[0][i]/((-1)*array[j][i]) < min){ // beacause we need to ensure this problem to 
-											min = array[j][0]*array[0][i]/((-1)*array[j][i]);											
+									if(array[j][i]<(-1)*Math.pow(10,-5)&&array[j][0]*array[0][i]/((-1)*array[j][i]) < min){ // beacause we need to ensure this problem to
+											min = array[j][0]*array[0][i]/((-1)*array[j][i]);
 									}
 								}
 								maximum_increase[i] = min;
@@ -179,11 +177,11 @@ public class Simplex{
 							}
 						}
 						break;
-				default: 
+				default:
 						System.out.print("No method_rule is indicated!\n");
 						break;
 			}
-				
+
 		return index;
 		}
 	public static void print_row_zero(double value){
@@ -206,7 +204,7 @@ public class Simplex{
 					System.out.printf("%.2f  ",value);
 			else if(value > -Math.pow(10,-5) && value < Math.pow(10,-5))
 					System.out.printf("%.2f     ",value);
-			else 
+			else
 					System.out.printf("%.2f ",value);
 
 	}
@@ -283,7 +281,7 @@ public class Simplex{
 				System.out.print("\n");
 				}
 				//System.out.print("\n");
-			
+
 			System.out.print("---------------------------------------------------------------------------------\n");
 			System.out.print("z   =  ");
 			print_row_zero(array[0][0]);
@@ -296,10 +294,10 @@ public class Simplex{
 		}
 	public static double[][] read_file(Scanner new_scan){
 		/*
-			This is to read the input, the main call need to pass it a Scanner, and the read_file call 
+			This is to read the input, the main call need to pass it a Scanner, and the read_file call
 			will need to read the content of the scanner, and it will read a problem input at a time
 		*/
-			String mchar,nchar,middle;	
+			String mchar,nchar,middle;
 			int i,j;
 			nchar = new_scan.next();
 			mchar = new_scan.next();
@@ -330,16 +328,16 @@ public class Simplex{
 					middle = new_scan.next();
 					array[i][j] = Double.parseDouble(middle);
 		  			// the non-basic information
-				}		
+				}
 		 	array[i][i+n] = 1; // These are the slack variable
 			} // have completed the array
 			for(i=1;i<m+1;i++){
 		   		for(j=1;j<n+1;j++){
-					array[i][j] = 0 - array[i][j]; // convert the value of coefficient of non-basic variable 
+					array[i][j] = 0 - array[i][j]; // convert the value of coefficient of non-basic variable
 		    	}
 			}
 			boolean is_in_basis[] = is_in_basis_array(basic,m,n);
-			matrix_to_equations(basic,array,m,n,is_in_basis);		
+			matrix_to_equations(basic,array,m,n,is_in_basis);
 		return array;
 	}
 
@@ -363,7 +361,7 @@ public class Simplex{
 outout:
 		for(j=1;j<m+n+1;j++){
 				if(-Math.pow(10,-5)<array[ind_row][j]&& array[ind_row][j] <Math.pow(10,-5))// if zero
-					continue;			
+					continue;
 				for(i=0;i<m;i++){ // this is to use the index to replace the variable originally in basis
 					if(basic[i] == j){
 						array[ind_row][j] = (-1)*array[ind_row][j]; // pumped it out
@@ -372,17 +370,17 @@ outout:
 						System.out.print("\nLeaving variable:"+"x"+j+'\n');
 						System.out.print("\nEntering variable:"+"x"+index+"\n\n");
 						 break outout;
-					}					
+					}
 				}
 		}
-		//the ind_row has been modified, and we then need to bring it to other functions to eliminate the xi which 
+		//the ind_row has been modified, and we then need to bring it to other functions to eliminate the xi which
 		// would enter the basic set in next pivoting
 		if(positive_flag == true){ // this means the pivot is different,and we need to do some fix to what we've done above
 									// this is used only when we need to pivot x0 out of basis
 			array[ind_row][j] = 1;
 			for(i=1;i<m+n+1;i++){
 				if(i != index) {
-				array[ind_row][i] = (-1)*array[ind_row][i]; // except for the entering variable, the rest all convert their value 				
+				array[ind_row][i] = (-1)*array[ind_row][i]; // except for the entering variable, the rest all convert their value
 				}
 			}
 			array[ind_row][leave_variable] = -1;
@@ -390,7 +388,7 @@ outout:
 		}
 		for(i=0;i<m+1;i++){
 				for(j=0;j<m+n+1;j++){
-					if(i !=ind_row && j !=index){				
+					if(i !=ind_row && j !=index){
 						array[i][j] = array[i][j] + array[i][index]*array[ind_row][j];
 					}
 				}
@@ -398,11 +396,11 @@ outout:
 					array[i][index] = 0;
 			}
 	array_and_basic new_structure = new array_and_basic(array,basic) ;
-	return new_structure; 
+	return new_structure;
     }
 
     public static array_and_basic init_phase1(double array[][], int basic[],int m, int n){
-    	// array is a (m+1)*(m+n+1) double 2D array,storing the 
+    	// array is a (m+1)*(m+n+1) double 2D array,storing the
     	// basic is a (m+1) int 1D array
     	int i,j;
     	double[][] array1 = new double[m+1][m+n+2]; // last row is the objective function
@@ -421,19 +419,19 @@ outout:
 				//System.out.print("\n??????\n");
 				array1[i][j] = array[i][j]; // this part is directly copied from the original dictionary
 			}
-			array1[i][m+n+1] = 1 ; // + X0	
+			array1[i][m+n+1] = 1 ; // + X0
 		}
-		//after this we have already got the dictionary, which will be used to determine a feasible solution 
+		//after this we have already got the dictionary, which will be used to determine a feasible solution
 		//or to determine if it is infeasible.
 		double min = 0;
-		int point_row = 0 ; 
+		int point_row = 0 ;
 		for(i=1;i<m+1;i++){
 				if(min > array1[i][0]){
 					min = array[i][0];
 					point_row = i;
 				}
 		}
-		//we assume that only when we find that b < 0 , we then will call this function, so for sure 
+		//we assume that only when we find that b < 0 , we then will call this function, so for sure
 		//after the loop above, we will get min < 0 and point_row > 0
 		for(i=0;i<m;i++){
 			if(basic1[i] == point_row + n ) {// this means that we find the basic variable,
@@ -500,10 +498,10 @@ outout:
 		//so far, we have found the index and ind_row,then can start pivoting
 		array_and_basic My_structure = new array_and_basic(array,basic);
 		System.out.print("After "+num_pivot+" Pivot\n");
-		num_pivot = num_pivot + 1; // increase the # of pivot by 1	
+		num_pivot = num_pivot + 1; // increase the # of pivot by 1
 		My_structure = pivot(array,basic,m,n,index,ind_row);
 		array = My_structure.array;
-		basic = My_structure.basic;	
+		basic = My_structure.basic;
 		boolean is_in_basis[] = is_in_basis_array(basic,m,n);
 		matrix_to_equations(basic,array,m,n,is_in_basis);
 	} //end of while
@@ -549,7 +547,7 @@ outout:
 	return My_structure;
   }
 
-  public static void simplex(int n, int m, double array[][],int basic[],int pivot_mode_flag){	
+  public static void simplex(int n, int m, double array[][],int basic[],int pivot_mode_flag){
 	int num_pivot = 1; // This used to count the number of pivot
 	int basic_position;  //find the position of basic variable in each row
 	array_and_basic My_structure = new array_and_basic(array,basic);
@@ -558,7 +556,7 @@ outout:
 	int i,j;
 	for(i=0;i<m+n+1;i++){
 		array_row0[i] = array[0][i]; // copy the objective function
-	} 	
+	}
 	boolean feasible_flag = true;
 	if(whether_phase1(array,m) == true){
 		My_structure = init_phase1(array,basic,m,n);
@@ -570,7 +568,7 @@ outout:
 
 		if(My_new_structure.optimal < (-1)*Math.pow(10,-5)){ // negative optimized value,means this problem is infeasible
 			feasible_flag = false;
-			return;	
+			return;
 		}
 		///////////////////////////////////////////////////////////////////////
 		//otherwise the problem is feasible and we need to solve this problem
@@ -585,7 +583,7 @@ outout:
 		// now we need to construct the objective function,because we choose that the first copy the original function
 		//so now we need to use the copied objective function to construct the new objective function
 		for(i=0;i<m+n+1;i++){ // initialize the dictionary
-			array[0][i] = array_row0[i]; 
+			array[0][i] = array_row0[i];
 		}
 
 		for(i=1;i<m+1;i++){ //for each equation, we need to find if the the basic variable in that equation 's coefficient
@@ -614,7 +612,7 @@ outout:
 	while(feasible_flag){
 		int index = find_index(n,m,array,basic,pivot_mode_flag);  // index of colum
 		int ind_row = find_ind_row(n,m,array,basic,index); // index of row
-		// this point require some 
+		// this point require some
 		if(index == 0){
 			System.out.print("\nHave found the optimal solution!\n"); // this means the coefficient of obj function are all negative
 			boolean is_in_basis[] = is_in_basis_array(basic,m,n);
@@ -641,10 +639,10 @@ outout:
 		}
 		//so far, we have found the index and ind_row,then can start pivoting
 		System.out.print("After "+num_pivot+" Pivot\n");
-		num_pivot = num_pivot + 1; // increase the # of pivot by 1	
+		num_pivot = num_pivot + 1; // increase the # of pivot by 1
 		My_structure = pivot(array,basic,m,n,index,ind_row);
 		array = My_structure.array;
-		basic = My_structure.basic;	
+		basic = My_structure.basic;
 		boolean is_in_basis1[] = is_in_basis_array(basic,m,n);
 		matrix_to_equations(basic,array,m,n,is_in_basis1);
 		try{
@@ -655,7 +653,7 @@ outout:
 		}
 	} //end of while
 
-  } // end of simplex() method  
+  } // end of simplex() method
 
   public static void main(String args[]){
 	Scanner in = new Scanner(System.in);
@@ -677,7 +675,7 @@ outout:
 			System.out.print("\nThe method is maximum increase\n");
 			pivot_mode_flag = 3;
 			break;
-		default:	
+		default:
 			System.out.print("\nNo method indicated,default method is largest coefficients!\n");
 			pivot_mode_flag = 2;
 			break;
@@ -695,6 +693,6 @@ outout:
 			}
 		System.out.print("\n\n");
 	    simplex(n,m,array,basic,pivot_mode_flag); // newly added line
-		} //end of while loop	
+		} //end of while loop
 	} //end of the main call
 } // end of Simplex class definition
